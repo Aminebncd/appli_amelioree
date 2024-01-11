@@ -12,9 +12,9 @@
 
     // Les valeurs sont filtrées en fonction de leur type par les differents parametres de filter_input(), en l'occurence ici SANITIZE et VALIDATE
 
-        $name = filter_input(INPUT_POST, "name", FILTER_SANITIZE_STRING);
-        $price = filter_input(INPUT_POST, "price", FILTER_VALIDATE_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
-        $qtt = filter_input(INPUT_POST, "qtt", FILTER_VALIDATE_INT);
+        $name = filter_input(INPUT_POST, "name", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $price = filter_input(INPUT_POST, "price", FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+        $qtt = filter_input(INPUT_POST, "qtt", FILTER_SANITIZE_NUMBER_INT);
 
 
 

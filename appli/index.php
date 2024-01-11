@@ -24,13 +24,13 @@
     <p>
         <label>
             Prix du produit :
-            <input type="text" name="price">
+            <input type="number" name="price">
         </label>
     </p>
     <p>
         <label>
             Quantitée desirée :
-            <input type="text" name="qtt">
+            <input type="number" name="qtt">
         </label>
     </p>
     <p>
@@ -39,6 +39,8 @@
     </p>
 
 </form>
+
+<a href="recap.php"> Recapitulatif des produits</a>
 
 </body>
 </html>
