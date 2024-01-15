@@ -63,7 +63,7 @@ $totalGeneral = 0;
 
                             <form action="traitement.php?action=updateQtt" method="post">
                                 <input type='hidden' name='productIndex' value='<?php echo $index; ?>'>
-                                <input class="text-center" type="number" size='1' name='updateQtt' value='<?php echo $product['qtt']; ?>'>
+                                <input class="text-center" type="text" size='1' name='updateQtt' value='<?php echo $product['qtt']; ?>'>
                             </form>
 
                             <form action='traitement.php?action=plus' method='post'>
