@@ -1,25 +1,15 @@
 <?php
+
 session_start();
-?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <title>Ajout produit</title>
+ob_start();
 
-</head>
-<body>
+include 'menu.php';
 
-<?php include 'menu.php';?>
-
-<?php
 if (isset($_SESSION['message'])) {
     echo '<div class="alert alert-info mt-3">' . $_SESSION['message'] . '</div>';
-
     unset($_SESSION['message']);
 }
+
 ?>
 
     <div class="container">
@@ -47,9 +37,14 @@ if (isset($_SESSION['message'])) {
         <a href="recap.php" class="btn btn-info mt-3">Récapitulatif des produits</a>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<?php
+
+$titre = 'Ajout de produits';
+$content = ob_get_clean();
+require_once 'template.php'; 
+
+?>
+
 </body>
 </html>
 

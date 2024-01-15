@@ -108,6 +108,10 @@ if (isset($_GET['action'])) {
         header("Location: recap.php");
         break;
 
+    default: 
+        header("Location: index.php");
+        break;
     }
+
 }
 ?>
