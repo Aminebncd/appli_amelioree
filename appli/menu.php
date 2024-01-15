@@ -16,6 +16,9 @@
                 <a class="nav-link" href="recap.php">Récapitulatif</a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" href="reclamations.php">Reclamations</a>
+            </li>
+            <li class="nav-item">
                 <span class="navbar-text">
                     Panier : <?php echo getNumberOfProductsInSession(); ?>
                 </span>

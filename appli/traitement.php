@@ -108,6 +108,41 @@ if (isset($_GET['action'])) {
         header("Location: recap.php");
         break;
 
+    case "reclamation":
+        if(isset($_FILES['file'])){
+
+
+            $tmpName = $_FILES['file']['tmp_name'];
+            $name = $_FILES['file']['name'];
+            $size = $_FILES['file']['size'];
+            $error = $_FILES['file']['error'];
+        
+            move_uploaded_file($tmpName, '../appli/upload/'.$name);
+
+            $tabExtension = explode('.', $name);
+            $extension = strtolower(end($tabExtension));
+
+            //Tableau des extensions que l'on accepte
+            $extensions = ['jpg', 'png', 'jpeg', 'gif'];
+            $maxSize = 400000;
+
+            if(in_array($extension, $extensions) && $size <= $maxSize){
+
+                $uniqueName = uniqid('', true);
+                //uniqid génère quelque chose comme ca : 5f586bf96dcd38.73540086
+                $file = $uniqueName.".".$extension;
+                //$file = 5f586bf96dcd38.73540086.jpg
+            
+                move_uploaded_file($tmpName, './upload/'.$name);
+            }
+            else{
+                echo "Mauvaise extension ou taille trop grande";
+            }
+            
+            header("Location: reclamations.php");
+            break;
+
+        }
     default: 
         header("Location: index.php");
         break;

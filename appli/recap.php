@@ -15,13 +15,14 @@ if (isset($_SESSION['message'])) {
 
 <body>
     <div class="container mt-5">
+    <h2 class="mt-5">Récapitulatif des produits</h2>
 
         <?php
             if (!isset($_SESSION['products']) || empty($_SESSION['products'])) {
             echo "<p class='alert alert-warning'>Aucun produit en session...</p>";
                 } else {
         ?>
-            <table class='table text-center align-middle'>
+            <table class='table text-center align-middle mt-3'>
                 <thead>
                     <tr>
                         <!-- <th>#</th> -->
