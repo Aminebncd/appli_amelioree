@@ -15,7 +15,7 @@ if (isset($_SESSION['message'])) {
     <div class="container">
         <h1 class="mt-5">Ajouter un produit</h1>
 
-        <form action="traitement.php?action=add" method="post">
+        <form action="traitement.php?action=add" method="post"enctype="multipart/form-data">
             <div class="form-group">
                 <label for="productName">Nom du produit :</label>
                 <input type="text" class="form-control" name="name" id="productName">
@@ -29,6 +29,15 @@ if (isset($_SESSION['message'])) {
             <div class="form-group">
                 <label for="productQuantity">Quantité désirée :</label>
                 <input type="number" step="1" min="0"class="form-control" name="qtt" id="productQuantity">
+            </div>
+
+            <div class="form-group">
+                <label for="productDescription">Description du produit :</label>
+                <textarea type="text" class="form-control" name="desc" id="productDescription" rows="6"></textarea> 
+            </div>
+            <div class="form-group">
+                <label for="productImage" >Image du produit</label>
+                <input type="file" accept=".jpg, .png, .jpeg" class="form-control form-control-sm p-0" name="img" id="productImage">
             </div>
 
             <input type="submit" name="add" value="Ajouter le produit" class="btn btn-primary"></input>

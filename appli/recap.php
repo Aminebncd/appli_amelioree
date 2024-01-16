@@ -2,6 +2,8 @@
 
 session_start();
 ob_start();
+var_dump($_SESSION['products'][$product]);
+
 
 include 'menu.php';
 
@@ -26,7 +28,7 @@ if (isset($_SESSION['message'])) {
                 <thead>
                     <tr>
                         <!-- <th>#</th> -->
-                        <th class='th text-left' >Nom</th>
+                        <th class='th text-left' >produit</th>
                         <th>Prix</th>
                         <th>Quantité</th>
                         <th>Total</th>
@@ -43,7 +45,11 @@ if (isset($_SESSION['message'])) {
 
                 <tr>
                     <!-- <td><?php echo $index; ?></td> -->
-                    <td class= "td text-left"><?php echo $product['name']; ?></td>
+                    <td class="td text-left">
+                        <!-- <img src="produits/<?= $product['img'] ?>" alt="" width="40px" height="auto">    -->
+                        <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href='traitement.php?action=detail' method='get' name="'productToDetail'" id='productToDetail'><?= $product["name"] ?></a>
+                    </td>
+
                     <td><?php echo number_format($product['price'], 2, ",", "&nbsp;") . "&nbsp;€"; ?></td>
 
                     <td class="input-group d-flex justify-content-center">
@@ -104,7 +110,7 @@ if (isset($_SESSION['message'])) {
         <input class="btn btn-danger btn-block mt-3" type="submit" name="clear" value="Vider le panier" class="btn btn-primary"></input>
         </form>
 
-        <a href="index.php" class="btn btn-primary btn-block mt-3">Continuer les achats</a>
+        <a href="index.php" class="btn btn-primary btn-block mt-3 mb-5">Continuer les achats</a>
     </div>
 
 

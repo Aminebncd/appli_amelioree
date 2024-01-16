@@ -6,29 +6,74 @@ if (isset($_GET['action'])) {
 
     switch ($_GET['action']) {
 
+
+
+
+
+
     // AJOUT DE PRODUITS
     case "add":
+        if(isset($_FILES['img'])){
 
-        $name = filter_input(INPUT_POST, "name", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        $price = filter_input(INPUT_POST, "price", FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
-        $qtt = filter_input(INPUT_POST, "qtt", FILTER_VALIDATE_INT);
-
-        if ($name && $price && $qtt) {
-
-            $product = [
-                "name" => $name,
-                "price" => $price,
-                "qtt" => $qtt,
-                "total" => $price * $qtt,
-            ];
-
-            $_SESSION['message'] = "Produit ajouté avec succès!";
-            $_SESSION['products'][] = $product;
-        } else {
-            $_SESSION['message'] = "Erreur lors de l'ajout du produit.";
+            $tmpName = $_FILES['img']['tmp_name'];
+            $productName = $_FILES['img']['name'];
+            $size = $_FILES['img']['size'];
+            $error = $_FILES['img']['error'];
+        
+            
+            $tabExtension = explode('.', $productName);
+            $extension = strtolower(end($tabExtension));
+            
+            //Tableau des extensions que l'on accepte
+            $extensions = ['jpg', 'png', 'jpeg', 'gif'];
+            $maxSize = 1200000;
+            
+            if(in_array($extension, $extensions) && $size <= $maxSize){
+                
+                $uniqueName = uniqid('', true);
+                //uniqid génère quelque chose comme ca : 5f586bf96dcd38.73540086
+                $file = $uniqueName.".".$extension;
+                //$file = 5f586bf96dcd38.73540086.jpg
+                
+                $req = $db->prepare('INSERT INTO file (name) VALUES (?)');
+                
+                $req->execute([$file]);
+                move_uploaded_file($tmpName, '../appli/produits/'.$file);
+                $_SESSION['message'] = "Image enregistrée";
+                
+                $name = filter_input(INPUT_POST, "name", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                $price = filter_input(INPUT_POST, "price", FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+                $qtt = filter_input(INPUT_POST, "qtt", FILTER_VALIDATE_INT);
+                $description = filter_input(INPUT_POST, "desc", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                
+        
+                if ($name && $price && $qtt && $description) {
+        
+                    $product = [
+                        "name" => $name,
+                        "price" => $price,
+                        "qtt" => $qtt,
+                        "total" => $price * $qtt,
+                        "desc" => $description,
+                        "img" => $file
+                        ];
+                        
+                        
+                    $_SESSION['message'] = "Produit ajouté avec succès!";
+                    $_SESSION['products'][] = $product;
+                } else {
+                    $_SESSION['message'] = "Erreur lors de l'ajout du produit.";
+                }
+            }
         }
+
+    // }
         header("Location:index.php");
         break;
+
+
+
+
 
     // SUPPRESSION DE PRODUIT
     case "remove":
@@ -50,6 +95,10 @@ if (isset($_GET['action'])) {
         header("Location:recap.php");
         break;
 
+
+
+
+
     // VIDER LE PANIER
     case "clear":
         if (isset($_POST['clear'])) {
@@ -57,6 +106,10 @@ if (isset($_GET['action'])) {
         }
         header("Location:index.php");
         break;
+
+
+
+
 
     // INCREMENT DE LA QUANTITE DE PRODUIT
     case "minus":
@@ -87,6 +140,10 @@ if (isset($_GET['action'])) {
         header("Location: recap.php");
         break;
 
+
+
+
+
     // MISE A JOUR DE LA QUANTITE DE PRODUIT
     case "updateQtt":
         if (isset($_POST['updateQtt'])) {
@@ -108,9 +165,12 @@ if (isset($_GET['action'])) {
         header("Location: recap.php");
         break;
 
-    case "reclamation":
-   
 
+
+
+
+    // PRISE EN CHARGE DES RECLAMATIONS
+    case "reclamation":
         if(isset($_FILES['file'])){
 
 
@@ -144,11 +204,34 @@ if (isset($_GET['action'])) {
             else{
                 $_SESSION['message'] = "Mauvaise extension ou taille trop grande";
             }
-            
-            header("Location: reclamations.php");
-            break;
-
         }
+        header("Location: reclamations.php");
+        break;
+
+
+
+
+
+        //DETAIL INDIVIDUEL DES PRODUITS
+        case "details": 
+            if (isset($_POST['details'])) {
+            $indexToDetail = filter_input(INPUT_GET, 'productToDetail');
+
+            if ($indexToDetail !== false && isset($_SESSION['products'][$indexToDetail])) {
+
+                $_SESSION["products"] = array_values($_SESSION["products"]);
+                // on supprime à l'endroit selectionné
+
+            } else {
+                $_SESSION['message'] = "Veuillez nous excuser, une erreur inattendue est survenue.";
+            }
+        }
+        header("Location:product.php");
+        break;
+
+
+
+ 
     default: 
         header("Location: index.php");
         break;
