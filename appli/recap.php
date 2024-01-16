@@ -22,7 +22,7 @@ if (isset($_SESSION['message'])) {
             echo "<p class='alert alert-warning'>Aucun produit en session...</p>";
                 } else {
         ?>
-            <table class='table text-center align-middle mt-3'>
+            <table class='table table-striped text-center align-middle mt-3'>
                 <thead>
                     <tr>
                         <!-- <th>#</th> -->
@@ -32,7 +32,7 @@ if (isset($_SESSION['message'])) {
                         <th>Total</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class= "table table-borderless">
 
             <?php
 

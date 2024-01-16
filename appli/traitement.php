@@ -1,5 +1,5 @@
 <?php
-
+require 'bdd.php';
 session_start();
 
 if (isset($_GET['action'])) {
@@ -109,6 +109,8 @@ if (isset($_GET['action'])) {
         break;
 
     case "reclamation":
+   
+
         if(isset($_FILES['file'])){
 
 
@@ -117,26 +119,30 @@ if (isset($_GET['action'])) {
             $size = $_FILES['file']['size'];
             $error = $_FILES['file']['error'];
         
-            move_uploaded_file($tmpName, '../appli/upload/'.$name);
-
+            
             $tabExtension = explode('.', $name);
             $extension = strtolower(end($tabExtension));
-
+            
             //Tableau des extensions que l'on accepte
             $extensions = ['jpg', 'png', 'jpeg', 'gif'];
-            $maxSize = 400000;
-
+            $maxSize = 1200000;
+            
             if(in_array($extension, $extensions) && $size <= $maxSize){
-
+                
                 $uniqueName = uniqid('', true);
                 //uniqid génère quelque chose comme ca : 5f586bf96dcd38.73540086
                 $file = $uniqueName.".".$extension;
                 //$file = 5f586bf96dcd38.73540086.jpg
-            
-                move_uploaded_file($tmpName, './upload/'.$name);
+                
+                $req = $db->prepare('INSERT INTO file (name) VALUES (?)');
+                
+                $req->execute([$file]);
+                move_uploaded_file($tmpName, '../appli/upload/'.$file);
+                $_SESSION['message'] = "Image enregistrée";
+                
             }
             else{
-                echo "Mauvaise extension ou taille trop grande";
+                $_SESSION['message'] = "Mauvaise extension ou taille trop grande";
             }
             
             header("Location: reclamations.php");
