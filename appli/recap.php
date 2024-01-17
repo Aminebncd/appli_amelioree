@@ -2,7 +2,7 @@
 
 session_start();
 ob_start();
-var_dump($_SESSION['products'][$product]);
+// var_dump($_SESSION['products']);
 
 
 include 'menu.php';
@@ -46,8 +46,10 @@ if (isset($_SESSION['message'])) {
                 <tr>
                     <!-- <td><?php echo $index; ?></td> -->
                     <td class="td text-left">
-                        <!-- <img src="produits/<?= $product['img'] ?>" alt="" width="40px" height="auto">    -->
-                        <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href='traitement.php?action=detail' method='get' name="'productToDetail'" id='productToDetail'><?= $product["name"] ?></a>
+                        
+                    <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href='traitement.php?action=detail&id=<?= $product["id"] ?>' name='detail' id='productToDetail'><?= $product["name"] ?></a>
+
+
                     </td>
 
                     <td><?php echo number_format($product['price'], 2, ",", "&nbsp;") . "&nbsp;€"; ?></td>

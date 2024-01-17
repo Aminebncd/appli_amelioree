@@ -48,8 +48,9 @@ if (isset($_GET['action'])) {
                 
         
                 if ($name && $price && $qtt && $description) {
-        
+                    $uniqueId = uniqid('', true);
                     $product = [
+                        "id" => $uniqueId,
                         "name" => $name,
                         "price" => $price,
                         "qtt" => $qtt,
@@ -213,21 +214,38 @@ if (isset($_GET['action'])) {
 
 
         //DETAIL INDIVIDUEL DES PRODUITS
-        case "details": 
-            if (isset($_POST['details'])) {
-            $indexToDetail = filter_input(INPUT_GET, 'productToDetail');
+        case "detail": 
+            if (isset($_GET['action']) && $_GET['action'] == 'detail' && isset($_GET['id'])) {
+                $productId = $_GET['id'];
+            
+                
+                $selectedProduct = null;
+                foreach ($_SESSION['products'] as $product) {
+                    if ($product['id'] == $productId) {
+                        $selectedProduct = $product;
+                        break;
+                    }
+                }
+            
+                if ($selectedProduct) {
 
-            if ($indexToDetail !== false && isset($_SESSION['products'][$indexToDetail])) {
+                    $_SESSION['selectedProduct'] = $selectedProduct;
 
-                $_SESSION["products"] = array_values($_SESSION["products"]);
-                // on supprime à l'endroit selectionné
-
-            } else {
-                $_SESSION['message'] = "Veuillez nous excuser, une erreur inattendue est survenue.";
+                    $productName = $selectedProduct['name'];
+                    $productPrice = $selectedProduct['price'];
+                    $productQuantity = $selectedProduct['qtt'];
+                    $productTotal = $selectedProduct['total'];
+                    $productDescription = $selectedProduct['desc'];
+                    $productImage = $selectedProduct['img'];
+            
+                    
+                } else {
+                    // Le produit n'a pas été trouvé
+                    echo "Produit non trouvé.";
+                }
+                header("Location:product.php");
+                break;
             }
-        }
-        header("Location:product.php");
-        break;
 
 
 
